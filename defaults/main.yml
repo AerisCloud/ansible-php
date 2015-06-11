@@ -1,0 +1,5 @@
+php_version: 5.4
+
+php_fpm_user: apache
+php_fpm_group: apache
+php_sessions_dir: "/tmp"

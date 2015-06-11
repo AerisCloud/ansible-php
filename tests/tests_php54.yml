@@ -1,0 +1,18 @@
+---
+# File for ansible-role-test (https://github.com/aeriscloud/ansible-role-test)
+name: "Tests"
+playbook:
+- hosts: centos
+  sudo: yes
+  roles:
+  - role: "@ROLE_NAME@"
+    php_version: 5.4
+  post_tasks:
+  - stat: path=/usr/bin/php
+    register: php_binary
+  - stat: path=/usr/bin/php-cgi
+    register: php_cgi_binary
+  - stat: path=/usr/bin/phar
+    register: phar_binary
+  - fail: msg="php-cli is not installed"
+    when: not php_binary.stat.exists or not php_cgi_binary.stat.exists or not phar_binary.stat.exists

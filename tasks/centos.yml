@@ -1,0 +1,39 @@
+- name: "Install PHP with php-fpm"
+  yum: >
+    name={{ item }}
+    state=latest
+    enablerepo=epel,remi
+  with_items:
+    - php{{ php_version | replace('.','') }}-php-pecl-apcu
+    - php{{ php_version | replace('.','') }}-php-cli
+    - php{{ php_version | replace('.','') }}-php-fpm
+    - php{{ php_version | replace('.','') }}-php-mysqlnd
+    - php{{ php_version | replace('.','') }}-php-pgsql
+    - php{{ php_version | replace('.','') }}-php-pdo
+    - php{{ php_version | replace('.','') }}-php-mbstring
+  notify:
+    - Restart php-fpm
+  tags:
+    - php
+    - pkgs
+
+- name: "Set php facts"
+  set_fact:
+    php_fpm_service: php{{ php_version | replace('.','') }}-php-fpm
+    php_config_dir: /opt/remi/php{{ php_version | replace('.','') }}/root/etc
+  tags:
+    - php
+
+- name: "Create symlink into /usr/bin"
+  file: >
+   src=/opt/remi/php{{ php_version | replace('.','') }}/root/usr/bin/{{ item }}
+   dest=/usr/bin/{{ item }}
+   owner=root
+   group=root
+   state=link
+  with_items:
+    - php
+    - php-cgi
+    - phar
+  tags:
+    - php

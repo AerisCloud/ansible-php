@@ -1,0 +1,48 @@
+- include: centos.yml
+  when: ansible_distribution == 'CentOS'
+
+- name: "Ensure php-fpm is running, and starts on boot"
+  service: >
+    name={{ php_fpm_service }}
+    enabled=yes
+    state=running
+  tags:
+    - php
+
+- name: "Ensure the 'php_fpm_user' exists"
+  user: >
+    name={{ php_fpm_user }}
+    state=present
+  tags:
+    - php
+    - user
+
+- name: "Set the php-fpm configuration"
+  template: >
+    src=www.conf
+    dest={{ php_config_dir }}/php-fpm.d/www.conf
+  notify:
+    - Restart php-fpm
+  tags:
+    - php
+    - files
+
+- name: "Disable cgi.fix_pathinfo"
+  template: >
+    src=php.ini
+    dest={{ php_config_dir }}/php.ini
+  notify:
+    - Restart php-fpm
+  tags:
+    - php
+    - files
+
+- name: "Create the log directory"
+  file: >
+    path=/var/log/php-fpm
+    owner={{ php_fpm_user }}
+    group={{ php_fpm_group }}
+    state=directory
+  tags:
+    - php
+    - files
