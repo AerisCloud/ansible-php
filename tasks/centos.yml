@@ -11,6 +11,7 @@
     - php{{ php_version | replace('.','') }}-php-pgsql
     - php{{ php_version | replace('.','') }}-php-pdo
     - php{{ php_version | replace('.','') }}-php-mbstring
+    - php{{ php_version | replace('.','') }}-php-xml
   notify:
     - Restart php-fpm
   tags:
