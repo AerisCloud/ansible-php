@@ -20,7 +20,7 @@ web1.somedc.prod         ansible_ssh_host=10.0.1.111
 php_fpm_user = apache
 php_fpm_group = apache
 
-# What PHP version to use. Available: 5.4, 5.5 and 5.6. Default: 5.4.
+# What PHP version to use. Available: 5.4, 5.5 and 5.6. Default: 5.6.
 php_version = 5.4
 
 # What folder to use to store sessions. Default: /tmp
@@ -29,6 +29,15 @@ php_sessions_dir = /tmp
 
 *Note:* If you want to change the PHP version on an already provisioned server,
 you must first uninstall manually the previous version.
+
+Also available is the `php_custom_extensions` variable, it is an array of extensions
+and as such should be set in a ansible vars file as yaml. eg:
+
+```yaml
+php_custom_extensions:
+- mcrypt
+- opcache
+```
 
 See also
 ---------
