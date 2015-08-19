@@ -1,12 +1,15 @@
 ---
 # File for ansible-role-test (https://github.com/aeriscloud/ansible-role-test)
-name: "5.6 installation"
+name: "Custom Extensions"
 playbook:
 - hosts: centos
   sudo: yes
   roles:
   - role: "@ROLE_NAME@"
     php_version: 5.6
+    php_custom_extensions:
+    - mcrypt
+    - opcache
   post_tasks:
   - stat: path=/usr/bin/php
     register: php_binary
