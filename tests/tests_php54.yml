@@ -1,6 +1,6 @@
 ---
 # File for ansible-role-test (https://github.com/aeriscloud/ansible-role-test)
-name: "Tests"
+name: "5.4 installation"
 playbook:
 - hosts: centos
   sudo: yes
