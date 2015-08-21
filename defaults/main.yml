@@ -4,3 +4,9 @@ php_custom_extensions: []
 php_fpm_user: apache
 php_fpm_group: apache
 php_sessions_dir: "/tmp"
+
+php_pm_max_children: 50
+php_pm_start_servers: 5
+php_pm_min_spare_servers: 5
+php_pm_max_spare_servers: 35
+php_pm_max_requests: 0
