@@ -1,3 +1,6 @@
+- include: debian.yml
+  when: ansible_distribution == 'Debian'
+
 - include: centos.yml
   when: ansible_distribution == 'CentOS'
 
@@ -20,7 +23,7 @@
 - name: "Set the php-fpm configuration"
   template: >
     src=www.conf
-    dest={{ php_config_dir }}/php-fpm.d/www.conf
+    dest={{ php_fpm_config_d_dir }}/www.conf
   notify:
     - Restart php-fpm
   tags:
