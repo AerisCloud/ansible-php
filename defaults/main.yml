@@ -10,3 +10,5 @@ php_pm_start_servers: 5
 php_pm_min_spare_servers: 5
 php_pm_max_spare_servers: 35
 php_pm_max_requests: 0
+
+php_expose_php: on
