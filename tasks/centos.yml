@@ -33,7 +33,13 @@
 - name: "Set php facts"
   set_fact:
     php_fpm_service: php{{ php_version | replace('.','') }}-php-fpm
+    php_config_dir: /etc/opt/remi/php{{ php_version | replace('.','') }}
+  tags:
+    - php
+- name: "Set php facts"
+  set_fact:
     php_config_dir: /opt/remi/php{{ php_version | replace('.','') }}/root/etc
+  when: php_version | version_compare('7.0', '<')
   tags:
     - php
 
