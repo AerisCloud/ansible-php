@@ -1,0 +1,47 @@
+- name: "Install PHP with php-fpm"
+  apt: >
+    name={{ item }}
+    state=latest
+  with_items:
+    - php{{ php_version | int }}-apcu
+    - php{{ php_version | int }}-cli
+    - php{{ php_version | int }}-fpm
+    - php{{ php_version | int }}-mysqlnd
+    - php{{ php_version | int }}-pgsql
+  notify:
+    - Restart php-fpm
+  tags:
+    - php
+    - pkgs
+
+- name: "DEBUG Install custom PHP extensions"
+  debug: >
+    name="{{ php_custom_extensions|map('replace','',('php%s' % ( php_version|int )) + '-', 1)|join(',') }}"
+    state=latest
+  when: php_custom_extensions|length > 0
+  notify:
+    - Restart php-fpm
+  tags:
+    - php
+    - pkgs
+
+- name: "Install custom PHP extensions"
+  apt: >
+    name="{{ php_custom_extensions|map('replace','',('php%s' % ( php_version|int )) + '-', 1)|join(',') }}"
+    state=latest
+  when: php_custom_extensions|length > 0
+  notify:
+    - Restart php-fpm
+  tags:
+    - php
+    - pkgs
+
+- name: "Set php facts"
+  set_fact:
+    php_fpm_user: www-data
+    php_fpm_group: www-data
+    php_fpm_service: "php{{ php_version | int }}-fpm"
+    php_config_dir: "/etc/php{{ php_version | int }}/fpm"
+    php_fpm_config_d_dir: "/etc/php{{ php_version | int }}/fpm/pool.d"
+  tags:
+    - php

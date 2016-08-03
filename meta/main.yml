@@ -9,6 +9,10 @@ galaxy_info:
       versions:
         - 6
         - 7
+    - name: Debian
+      versions:
+        - wheezy
+        - jessie
   categories:
     - development
     - web
@@ -21,4 +25,8 @@ dependencies:
       centos7:
         - epel
         - remi
+      wheezy:
+        - dotdeb
+      jessie:
+        - dotdeb
   - role: AerisCloud.yum
